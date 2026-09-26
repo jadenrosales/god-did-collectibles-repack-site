@@ -112,6 +112,8 @@
     $("v-switch").innerHTML = liveEditions().map((e) =>
       `<button class="${e.key === ed.key ? "on" : ""}" data-key="${e.key}">${esc(e.name)}</button>`).join("");
 
+    $("v-spots").href = `spots.html#${ed.key}`;
+
     renderRail();
     renderChecklist();
 

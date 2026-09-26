@@ -1,10 +1,6 @@
-/* Site settings — edit this file to change prices, spot sheets and links. */
+/* Site settings — edit this file to change prices, taglines and colours. */
 window.VAULT_CONFIG = {
   brand: "Vault Box",
-
-  // Google Sheet holding the spot list (column A = spot, column B = TikTok username).
-  // It must be shared as "Anyone with the link can view" so the Spots page can read it live.
-  spotSheet: "1ZphCh6U38IwUOVXkg7wDSvDgS5cSe2_8Z-0Zwh7WMbk",
 
   // Order here is the order boxes appear on the site.
   editions: [

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Spot Board | Vault Box</title>
-  <meta name="description" content="Live Vault Box spot board — see which Pokémon spots are open and who claimed them.">
+  <title>Spots | Vault Box</title>
+  <meta name="description" content="Every Vault Box spot and the Pokémon that come with it.">
   <meta name="theme-color" content="#06070b">
   <link rel="icon" href="assets/boxes/grail.webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,29 +29,19 @@
 
   <main class="wrap">
     <div class="page-head">
-      <span class="eyebrow"><span class="live"></span>Spot board</span>
-      <h1><span class="metal">CLAIM YOUR</span> <span class="gold">SPOT</span></h1>
-      <p>Every spot is a Pokémon. If a card featuring your Pokémon comes out of the vault, it's yours. Spots update live from the break sheet.</p>
+      <span class="eyebrow">The spots</span>
+      <h1><span class="metal">EVERY SPOT.</span> <span class="gold">EVERY POKÉMON.</span></h1>
+      <p>Each spot comes with the Pokémon listed on it. If a card featuring one of them comes out of the vault, it belongs to that spot. Tap a spot to see its full checklist.</p>
     </div>
 
-    <div class="board-bar">
-      <div class="progress">
-        <div class="lbl"><b id="p-lbl"></b><span id="p-num"></span></div>
-        <div class="bar"><i id="p-bar"></i></div>
-      </div>
-      <span class="sync" id="sync"><i></i><span>Connecting…</span></span>
-    </div>
+    <div class="box-pick" id="pick"></div>
+    <div class="pick-note" id="pick-note"></div>
 
     <div class="board-filter">
       <label class="search">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-        <input id="q" type="search" placeholder="Find a Pokémon or TikTok username…" autocomplete="off">
+        <input id="q" type="search" placeholder="Find a Pokémon…" autocomplete="off">
       </label>
-      <div class="seg" id="filter">
-        <button class="on" data-f="all">All</button>
-        <button data-f="open">Open</button>
-        <button data-f="taken">Claimed</button>
-      </div>
     </div>
 
     <div class="board" id="board"></div>
