@@ -1,6 +1,6 @@
 /* Home page: box lineup, box detail overlay (spots + checklist), random pull, spot finder. */
 (function () {
-  const { CFG, DATA, esc, edition, liveEditions, spots, spotTitle, sprite, applyTheme } = window.VB;
+  const { CFG, DATA, esc, plus, edition, liveEditions, spots, spotTitle, sprite, applyTheme } = window.VB;
   const $ = (id) => document.getElementById(id);
   const CAT_LABEL = { m: "Main set", a: "Alt art / SIR", p: "Promo" };
   const TRAINER_ICON = `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>`;
@@ -11,12 +11,11 @@
   function renderStats() {
     const eds = liveEditions();
     const total = eds.reduce((n, e) => n + cardCount(e.key), 0);
-    const maxSpots = Math.max(...eds.map((e) => spots(e.key).length));
+    const nSpots = Math.max(...eds.map((e) => spots(e.key).length));
     $("stats").innerHTML = [
       [eds.length, "Live boxes"],
-      [total.toLocaleString(), "Possible pulls listed"],
-      [`Up to ${maxSpots}`, "Spots per break"],
-      ["NM / Graded", "Card condition"],
+      [plus(total), "Possible pulls"],
+      [nSpots, "Spots in play"],
     ].map(([b, s]) => `<div class="stat"><b class="gold">${b}</b><span>${s}</span></div>`).join("");
   }
 
@@ -48,7 +47,7 @@
           ${live ? "" : `<div class="lock"><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>COMING SOON</div></div>`}
         </div>
         <div class="meta">
-          <span>${live ? `${n} spots · ${cardCount(e.key).toLocaleString()} cards` : "Locked"}</span>
+          <span>${live ? `${n} spots · ${plus(cardCount(e.key))} cards` : "Locked"}</span>
           ${live ? '<span class="open">Open</span>' : ""}
         </div>
       </button>`;
@@ -106,9 +105,12 @@
     const alts = list.reduce((n, s) => n + s.groups.reduce((m, g) => m + g.cards.filter((c) => c[3] === "a").length, 0), 0);
     $("v-facts").innerHTML = `
       <span><b>${list.length}</b> spots</span>
-      <span><b>${cardCount(ed.key).toLocaleString()}</b> possible pulls</span>
-      <span><b>${alts}</b> alt arts / SIRs</span>
-      <span>Near mint <b>or</b> graded</span>`;
+      <span><b>${plus(cardCount(ed.key))}</b> possible pulls</span>
+      <span><b>${plus(alts)}</b> alt arts / SIRs</span>`;
+    $("v-rules").innerHTML = `
+      <li><b>Condition:</b> Cards may be graded or near mint, selected to fit the ${esc(ed.name)} price range of ${esc(ed.price)}.</li>
+      <li><b>Japanese cards:</b> JP versions of every listed card are also in play, as long as they fit the price range.</li>
+      <li><b>Always growing:</b> We add cards that fit this price range all the time, including new releases.</li>`;
     $("v-switch").innerHTML = liveEditions().map((e) =>
       `<button class="${e.key === ed.key ? "on" : ""}" data-key="${e.key}">${esc(e.name)}</button>`).join("");
 
@@ -139,10 +141,10 @@
 
   function renderRail() {
     const list = spots(state.key);
-    $("v-rail").innerHTML = `<h4>Spots</h4>` + list.map((s) => {
+    $("v-rail").innerHTML = `<h4>Spots <span>· in no particular order</span></h4>` + list.map((s) => {
       const n = s.groups.reduce((m, g) => m + g.cards.length, 0);
       return `<button class="sp ${s.spot === state.spot ? "on" : ""}" data-spot="${s.spot}">
-        <span class="n">${s.spot}</span><span class="t">${esc(spotTitle(s))}</span><span class="c">${n}</span></button>`;
+        <span class="n">${s.spot}</span><span class="t">${esc(spotTitle(s))}</span><span class="c">${n ? plus(n) : "New"}</span></button>`;
     }).join("");
     const on = $("v-rail").querySelector(".sp.on");
     if (on) on.scrollIntoView({ block: "nearest", inline: "nearest" });
@@ -174,7 +176,9 @@
     $("cl-head").innerHTML = `
       <div class="sprites">${isTrainer ? `<div class="trainer" style="width:76px;height:76px;display:grid;place-items:center;color:var(--a)">${TRAINER_ICON}</div>` : spot.groups.slice(0, 7).map((g, i) => sprite(g.pokemon).replace("<img", `<img style="animation-delay:${i * 60}ms"`)).join("")}</div>
       <h3><small>Spot ${spot.spot} of ${list.length}</small>${esc(spotTitle(spot))}</h3>
-      <div class="counts">${counts.m} main-set cards · ${counts.a} alt arts / SIRs · ${counts.p} promos</div>`;
+      <div class="counts">${counts.m + counts.a + counts.p
+        ? `${plus(counts.m)} main-set cards · ${plus(counts.a)} alt arts / SIRs · ${plus(counts.p)} promos`
+        : "Checklist coming soon"}</div>`;
 
     // category tabs (counts reflect current scope + search)
     const tally = { all: 0, m: 0, a: 0, p: 0 };
@@ -197,7 +201,11 @@
       return q ? `<div class="group"><h5 style="color:var(--a);font-family:var(--display);font-weight:400;font-size:18px">
         <a href="#box/${state.key}/${s.spot}" style="text-decoration:none">Spot ${s.spot} · ${esc(spotTitle(s))}</a></h5></div>${groups}` : groups;
     }).join("");
-    $("cl-list").innerHTML = html || `<div class="empty">No cards match${q ? ` “${esc(state.q)}”` : ""} in this ${q ? "box" : "spot"}.</div>`;
+    const unlisted = !q && !spot.groups.some((g) => g.cards.length);
+    const ed = edition(state.key);
+    $("cl-list").innerHTML = html || (unlisted
+      ? `<div class="empty">This spot is in play in ${esc(ed.name)}, and its checklist is on the way.<br>Any card featuring these Pokémon that fits the ${esc(ed.price)} range can hit.</div>`
+      : `<div class="empty">No cards match${q ? ` “${esc(state.q)}”` : ""} in this ${q ? "box" : "spot"}.</div>`);
   }
 
   /* ---------- random pull ---------- */

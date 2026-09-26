@@ -7,7 +7,20 @@
 
   const edition = (key) => CFG.editions.find((e) => e.key === key);
   const liveEditions = () => CFG.editions.filter((e) => !e.comingSoon && DATA.editions[e.key]);
-  const spots = (key) => DATA.editions[key] || [];
+  // Every spot is in play in every box. A box whose checklist doesn't cover a spot yet
+  // still gets that spot (same Pokémon, no listed cards).
+  const allSpots = Object.values(DATA.editions).reduce((a, b) => (b.length > a.length ? b : a), []);
+  const padded = {};
+  const spots = (key) => {
+    if (!DATA.editions[key]) return [];
+    if (!padded[key]) {
+      const own = new Map(DATA.editions[key].map((s) => [s.spot, s]));
+      padded[key] = allSpots.map((s) => own.get(s.spot) ||
+        { spot: s.spot, groups: s.groups.map((g) => ({ pokemon: g.pokemon, cards: [] })) });
+    }
+    return padded[key];
+  };
+  const plus = (n) => `${n.toLocaleString()}+`;
   const spotTitle = (spot) => spot.groups.map((g) => g.pokemon).join(" / ");
 
   function sprite(name, cls = "") {
@@ -39,5 +52,5 @@
     if (y) y.textContent = new Date().getFullYear();
   });
 
-  window.VB = { CFG, DATA, esc, edition, liveEditions, spots, spotTitle, sprite, applyTheme };
+  window.VB = { CFG, DATA, esc, plus, edition, liveEditions, spots, spotTitle, sprite, applyTheme };
 })();

@@ -1,6 +1,6 @@
 /* Spots page: every spot and the Pokémon that come with it, filterable by box. */
 (function () {
-  const { esc, liveEditions, spots, spotTitle, sprite } = window.VB;
+  const { esc, plus, liveEditions, spots, spotTitle, sprite } = window.VB;
   const $ = (id) => document.getElementById(id);
   const TRAINER_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>`;
 
@@ -18,14 +18,16 @@
 
   const eds = liveEditions();
   const byEd = Object.fromEntries(eds.map((e) => [e.key, spots(e.key)]));
-  const allSpots = Object.values(byEd).reduce((a, b) => (b.length > a.length ? b : a), []);
   const state = { box: "all", q: "" };
 
-  const hero = (s) => [...s.groups].sort((a, b) => b.cards.length - a.cards.length)[0];
   const countIn = (key, n) => {
     const s = byEd[key].find((x) => x.spot === n);
     return s ? s.groups.reduce((m, g) => m + g.cards.length, 0) : 0;
   };
+  // For each spot, use the box with the deepest checklist for that spot as the display source.
+  const richest = (n) => eds.reduce((best, e) => (countIn(e.key, n) > countIn(best.key, n) ? e : best), eds[0]);
+  const allSpots = byEd[eds[0].key].map((s) => byEd[richest(s.spot).key].find((x) => x.spot === s.spot));
+  const hero = (s) => [...s.groups].sort((a, b) => b.cards.length - a.cards.length)[0];
 
   function renderPick() {
     const btn = (key, label, sub, img, color) => `
@@ -34,18 +36,18 @@
         <div><b>${esc(label)}</b><span>${esc(sub)}</span></div>
       </button>`;
     $("pick").innerHTML = btn("all", "All boxes", `${allSpots.length} spots`, false, "#f3c969") +
-      eds.map((e) => btn(e.key, e.name, `${byEd[e.key].length} spots · ${e.price}`, true, e.colors.a)).join("");
+      eds.map((e) => btn(e.key, e.name, e.price, true, e.colors.a)).join("");
 
     const e = eds.find((x) => x.key === state.box);
     $("pick-note").style.setProperty("--a", e ? e.colors.a : "");
     $("pick-note").innerHTML = e
-      ? `<b>${esc(e.name)}</b> has <b>${byEd[e.key].length}</b> spots, and the box range is <b>${esc(e.price)}</b>.`
-      : `Grail &amp; Nuclear run spots <b>1–20</b>. Obsidian &amp; Spark run all <b>${allSpots.length}</b>.`;
+      ? `Showing possible-pull counts for <b>${esc(e.name)}</b> (<b>${esc(e.price)}</b>).`
+      : `All <b>${allSpots.length}</b> spots are in play in <b>every</b> box.`;
   }
 
   function render() {
     const q = state.q.trim().toLowerCase();
-    const list = (state.box === "all" ? allSpots : byEd[state.box])
+    const list = allSpots
       .filter((s) => !q || `${spotTitle(s)} ${s.spot}`.toLowerCase().includes(q));
 
     $("board").innerHTML = list.map((s, i) => {
@@ -53,11 +55,10 @@
       const h = hero(s);
       const others = s.groups.filter((g) => g !== h);
       const isTrainer = !window.spriteUrl(h.pokemon);
-      const inBoxes = eds.filter((e) => countIn(e.key, s.spot));
-      const target = state.box !== "all" ? state.box : inBoxes[0].key;
-      const count = state.box !== "all"
-        ? `${countIn(state.box, s.spot)} possible pulls`
-        : `${Math.max(...inBoxes.map((e) => countIn(e.key, s.spot)))} possible pulls`;
+      const inBoxes = eds;
+      const target = state.box !== "all" ? state.box : richest(s.spot).key;
+      const n = countIn(state.box !== "all" ? state.box : target, s.spot);
+      const count = n ? `${plus(n)} possible pulls` : "Checklist coming soon";
       const side = others.slice(0, 6).map((g) => sprite(g.pokemon, "side"));
       const stage = isTrainer
         ? `<div class="trainer">${TRAINER_ICON}</div>`
