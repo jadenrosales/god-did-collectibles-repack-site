@@ -23,13 +23,6 @@
     el.style.setProperty("--vbg", ed.colors.bg);
   }
 
-  function tiktokButtons() {
-    document.querySelectorAll("[data-tiktok]").forEach((a) => {
-      if (CFG.tiktokUrl) a.href = CFG.tiktokUrl;
-      else if (a.dataset.tiktok === "hide") a.remove();
-    });
-  }
-
   // Fade sections in as they scroll into view.
   function observeReveals() {
     const io = new IntersectionObserver((entries) => {
@@ -41,7 +34,6 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    tiktokButtons();
     observeReveals();
     const y = document.getElementById("year");
     if (y) y.textContent = new Date().getFullYear();
