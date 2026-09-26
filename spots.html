@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spot Board | Vault Box</title>
+  <meta name="description" content="Live Vault Box spot board — see which Pokémon spots are open and who claimed them.">
+  <meta name="theme-color" content="#06070b">
+  <link rel="icon" href="assets/boxes/grail.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Russo+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="bg-fx"></div>
+
+  <header class="nav">
+    <div class="wrap">
+      <a class="logo" href="index.html"><span class="dial"></span><span class="metal">VAULT BOX</span></a>
+      <nav>
+        <a href="index.html#boxes">Boxes</a>
+        <a class="on" href="spots.html">Spots</a>
+        <a class="hide-sm" href="index.html#how">How it works</a>
+        <a class="hide-sm" href="index.html#condition">Condition</a>
+        <a class="btn primary" href="#" data-tiktok="hide">Claim on TikTok</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="page-head">
+      <span class="eyebrow"><span class="live"></span>Spot board</span>
+      <h1><span class="metal">CLAIM YOUR</span> <span class="gold">SPOT</span></h1>
+      <p>Every spot is a Pokémon. If a card featuring your Pokémon comes out of the vault, it's yours. Spots update live from the break sheet.</p>
+    </div>
+
+    <div class="break-tabs" id="tabs"></div>
+
+    <div class="board-bar">
+      <div class="progress">
+        <div class="lbl"><b id="p-lbl"></b><span id="p-num"></span></div>
+        <div class="bar"><i id="p-bar"></i></div>
+      </div>
+      <span class="sync" id="sync"><i></i><span>Connecting…</span></span>
+    </div>
+
+    <div class="board-filter">
+      <label class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="q" type="search" placeholder="Find a Pokémon or TikTok username…" autocomplete="off">
+      </label>
+      <div class="seg" id="filter">
+        <button class="on" data-f="all">All</button>
+        <button data-f="open">Open</button>
+        <button data-f="taken">Claimed</button>
+      </div>
+    </div>
+
+    <div class="board" id="board"></div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <a class="logo" href="index.html"><span class="dial"></span><span class="metal">VAULT BOX</span></a>
+      <div>Possible-pulls lists are a guide, not a guarantee of what's in any single box. © <span id="year"></span> Vault Box</div>
+    </div>
+  </footer>
+
+  <script src="data/config.js"></script>
+  <script src="data/pulls.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/spots.js"></script>
+</body>
+</html>

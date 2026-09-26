@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vault Box | Pokémon Repacks</title>
+  <meta name="description" content="Vault Box Pokémon repacks — Grail, Nuclear, Obsidian and Spark editions. See price ranges and the full possible-pulls checklist for every spot.">
+  <meta name="theme-color" content="#06070b">
+  <link rel="icon" href="assets/boxes/grail.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Russo+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="bg-fx"></div>
+
+  <header class="nav">
+    <div class="wrap">
+      <a class="logo" href="index.html"><span class="dial"></span><span class="metal">VAULT BOX</span></a>
+      <nav>
+        <a href="#boxes">Boxes</a>
+        <a href="spots.html">Spots</a>
+        <a class="hide-sm" href="#how">How it works</a>
+        <a class="hide-sm" href="#condition">Condition</a>
+        <a class="btn primary" href="spots.html" data-tiktok>Claim a spot</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="ring"></div><div class="ring r2"></div>
+      <div class="wrap">
+        <span class="eyebrow"><span class="live"></span>Live Pokémon repack breaks</span>
+        <h1><span class="metal">CRACK</span><span class="gold">THE VAULT</span></h1>
+        <p class="lead">Pick your box, claim your Pokémon spot, and watch the vault open live. Every hit that lands on your Pokémon is yours — near mint raw or graded slab.</p>
+        <div class="ctas">
+          <a class="btn primary" href="#boxes">Browse the boxes</a>
+          <a class="btn" href="spots.html">See open spots →</a>
+        </div>
+        <div class="stats" id="stats"></div>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true"><div class="track" id="ticker"></div></div>
+
+    <section class="block" id="boxes">
+      <div class="wrap">
+        <div class="sec-head reveal-up">
+          <span class="eyebrow">The lineup</span>
+          <h2>Choose your vault</h2>
+          <p>Tap a box to open it up — see the price range, every spot, and the full checklist of possible pulls.</p>
+        </div>
+        <div class="lineup" id="lineup"></div>
+      </div>
+    </section>
+
+    <section class="block" id="how">
+      <div class="wrap">
+        <div class="sec-head reveal-up">
+          <span class="eyebrow">How it works</span>
+          <h2>Four steps to a hit</h2>
+        </div>
+        <div class="steps reveal-up">
+          <div class="step">
+            <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M12 8.5V6M15.5 12H18"/></svg></div>
+            <h3>Pick a box</h3>
+            <p>Grail, Nuclear, Obsidian or Spark — each box has its own price range and checklist.</p>
+          </div>
+          <div class="step">
+            <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></div>
+            <h3>Claim a spot</h3>
+            <p>Every spot is a Pokémon (or family). Grab yours on the TikTok live before they're gone.</p>
+          </div>
+          <div class="step">
+            <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+            <h3>We crack it live</h3>
+            <p>Once the break fills, the vault opens on stream. Every card is shown on camera.</p>
+          </div>
+          <div class="step">
+            <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7L9 18l-5-5"/></svg></div>
+            <h3>Your Pokémon, your hit</h3>
+            <p>Any card featuring your spot's Pokémon ships to you — raw near mint or graded.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="condition">
+      <div class="wrap">
+        <div class="sec-head reveal-up">
+          <span class="eyebrow">Card condition</span>
+          <h2>Near mint or graded</h2>
+          <p>Every hit in the vault is either a near mint raw card or a graded slab. Both count for your spot.</p>
+        </div>
+        <div class="cond reveal-up">
+          <div class="cond-card">
+            <div class="raw-card"></div>
+            <div>
+              <h3 class="gold">Near Mint Raw</h3>
+              <p>Ungraded cards pulled straight to sleeve and toploader. Clean surfaces, sharp corners, no play wear.</p>
+              <div class="chips"><span class="chip">NM</span><span class="chip">Sleeved</span><span class="chip">Toploaded</span></div>
+            </div>
+          </div>
+          <div class="cond-card">
+            <div class="slab"><div class="label"><span>POKÉMON<br>GEM MT</span><b>10</b></div><div class="inner"></div></div>
+            <div>
+              <h3 class="metal">Graded Slabs</h3>
+              <p>Authenticated and graded by a major grading company. Grade depends on the card pulled.</p>
+              <div class="chips"><span class="chip">PSA</span><span class="chip">BGS</span><span class="chip">CGC</span><span class="chip">SGC</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="finder">
+      <div class="wrap">
+        <div class="sec-head reveal-up">
+          <span class="eyebrow">Spot finder</span>
+          <h2>Where's my Pokémon?</h2>
+          <p>Type a Pokémon or card name to see which spot it lands in for every box.</p>
+        </div>
+        <div class="finder reveal-up">
+          <label class="search">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input id="finder-q" type="search" placeholder="Try Umbreon, Charizard ex, Gengar…" autocomplete="off">
+          </label>
+          <div class="finder-results" id="finder-results"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <a class="logo" href="index.html"><span class="dial"></span><span class="metal">VAULT BOX</span></a>
+      <div>Possible-pulls lists are a guide, not a guarantee of what's in any single box. © <span id="year"></span> Vault Box</div>
+    </div>
+  </footer>
+
+  <!-- Box detail overlay -->
+  <div class="vault" id="vault" role="dialog" aria-modal="true" aria-labelledby="v-title">
+    <div class="doors"><div class="door l"></div><div class="door r"></div></div>
+    <div class="wheel"></div>
+    <div class="scroller" id="v-scroller">
+      <div class="v-top">
+        <button class="icon-btn" id="v-close" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <span class="ed" id="v-ed"></span>
+        <div class="switch" id="v-switch"></div>
+      </div>
+      <div class="wrap">
+        <div class="v-hero">
+          <div class="v-art"><img id="v-art" alt=""></div>
+          <div>
+            <h2 id="v-title"></h2>
+            <div class="rng" id="v-price"></div>
+            <p id="v-tag"></p>
+            <div class="v-facts" id="v-facts"></div>
+            <div class="v-actions">
+              <button class="btn accent" id="v-crack">⚡ Crack a random pull</button>
+              <a class="btn" id="v-spots" href="spots.html">View spot board</a>
+            </div>
+          </div>
+        </div>
+        <div class="v-body">
+          <aside class="spot-rail" id="v-rail"></aside>
+          <div class="checklist">
+            <div class="cl-head" id="cl-head"></div>
+            <div class="cl-tools">
+              <label class="search">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+                <input id="cl-q" type="search" placeholder="Search this whole box…" autocomplete="off">
+              </label>
+              <div class="seg" id="cl-seg"></div>
+            </div>
+            <div class="legend"><span><i></i>Main set</span><span><i class="a"></i>Alt art / SIR</span><span><i class="p"></i>Promo</span></div>
+            <div id="cl-list"></div>
+            <div class="note"><b>Heads up:</b> this is a possible-pulls guide, not a guaranteed list. Any card featuring a Pokémon in your spot counts for that spot — near mint raw or graded (PSA / BGS / CGC / SGC).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Random pull reveal -->
+  <div class="reveal" id="reveal"><div class="rv" id="rv"></div></div>
+
+  <script src="data/config.js"></script>
+  <script src="data/pulls.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
