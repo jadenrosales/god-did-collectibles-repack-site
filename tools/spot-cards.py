@@ -120,15 +120,67 @@ def crop_marks(count):
     return "".join(out)
 
 
+def vault_svg():
+    """Vault-door emblem for the card back."""
+    import math
+    c, parts = 100, []
+    for i in range(60):  # dial ticks
+        a = math.radians(i * 6)
+        r1, r2 = (58, 66) if i % 5 == 0 else (61, 66)
+        parts.append(f'<line x1="{c + r1 * math.cos(a):.1f}" y1="{c + r1 * math.sin(a):.1f}" '
+                     f'x2="{c + r2 * math.cos(a):.1f}" y2="{c + r2 * math.sin(a):.1f}" '
+                     f'stroke="#f3c969" stroke-width="{1.6 if i % 5 == 0 else .8}"/>')
+    for i in range(12):  # bolts around the door
+        a = math.radians(i * 30 + 15)
+        parts.append(f'<circle cx="{c + 87 * math.cos(a):.1f}" cy="{c + 87 * math.sin(a):.1f}" r="4.2" '
+                     f'fill="url(#bolt)" stroke="#6b4e1a" stroke-width=".8"/>')
+    for i in range(3):  # handle spokes
+        a = math.radians(i * 60 + 90)
+        parts.append(f'<line x1="{c - 50 * math.cos(a):.1f}" y1="{c - 50 * math.sin(a):.1f}" '
+                     f'x2="{c + 50 * math.cos(a):.1f}" y2="{c + 50 * math.sin(a):.1f}" '
+                     f'stroke="url(#steel)" stroke-width="7" stroke-linecap="round"/>')
+    return f'''<svg class="vault" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="door" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#3a4150"/><stop offset="1" stop-color="#151920"/></radialGradient>
+        <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff1c4"/><stop offset=".45" stop-color="#f3c969"/><stop offset=".6" stop-color="#a8781f"/><stop offset="1" stop-color="#ffe39a"/></linearGradient>
+        <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4f6f9"/><stop offset=".5" stop-color="#8d96a5"/><stop offset="1" stop-color="#dfe3ea"/></linearGradient>
+        <radialGradient id="bolt" cx="35%" cy="35%" r="70%"><stop offset="0" stop-color="#fff4cf"/><stop offset="1" stop-color="#b8862b"/></radialGradient>
+      </defs>
+      <circle cx="100" cy="100" r="96" fill="url(#door)" stroke="url(#ring)" stroke-width="5"/>
+      <circle cx="100" cy="100" r="78" fill="none" stroke="url(#ring)" stroke-width="2.5"/>
+      <circle cx="100" cy="100" r="70" fill="#0d1016" stroke="#2b313d" stroke-width="2"/>
+      {"".join(parts)}
+      <circle cx="100" cy="100" r="22" fill="url(#door)" stroke="url(#ring)" stroke-width="3"/>
+      <text x="100" y="111" text-anchor="middle" font-family="Russo One" font-size="30" fill="url(#ring)">?</text>
+    </svg>'''
+
+
+def back():
+    return f'''
+    <div class="card back">
+      <div class="frame"></div>
+      <div class="bk-logo"><span class="metal">VAULT</span><span class="goldtxt">BOX</span></div>
+      {vault_svg()}
+      <div class="bk-tag">CRACK THE VAULT</div>
+    </div>'''
+
+
 def main():
     dex = dex_map()
     spots = load_spots()
     imgs = {m: art(dex[m]) for _, mons in spots for m in mons if m in dex}
     pic_css = "".join(f".p{dex[m]}{{background-image:url({u})}}\n" for m, u in imgs.items())
     cards = [card(n, mons, dex, imgs) for n, mons in spots]
-    pages = "".join(
-        f'<section class="sheet">{"".join(cards[i:i + 9])}{crop_marks(len(cards[i:i + 9]))}</section>'
-        for i in range(0, len(cards), 9))
+    # Double-sided: each front sheet is followed by its backs sheet, mirrored left-to-right
+    # so every back lands behind its front when printed "flip on long edge".
+    pages = ""
+    for i in range(0, len(cards), 9):
+        chunk = cards[i:i + 9]
+        pages += f'<section class="sheet">{"".join(chunk)}{crop_marks(len(chunk))}</section>'
+        backs = "".join(back().replace('class="card back"', f'class="card back" style="grid-row:{j // 3 + 1};grid-column:{3 - j % 3}"', 1)
+                        for j in range(len(chunk)))
+        pages += f'<section class="sheet">{backs}{crop_marks(len(chunk))}</section>'
+
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(TEMPLATE.replace("{{PAGES}}", pages)
                    .replace("{{PICS}}", pic_css)
@@ -162,6 +214,20 @@ html, body { margin: 0; padding: 0; background: #777; }
 }
 .wall { position: absolute; inset: -0.3in; display: grid; grid-template-columns: repeat(4, 1fr);
   gap: 0.12in; transform: rotate(-14deg); opacity: .09; filter: grayscale(1) brightness(1.6); }
+.back { background:
+    radial-gradient(circle at 50% 52%, rgba(243,201,105,.30), transparent 58%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,.035) 0 1pt, transparent 1pt 7pt),
+    linear-gradient(165deg, #1b2230 0%, #0b0e15 55%, #151b27 100%); }
+.back .vault { position: absolute; left: 50%; top: 1.02in; width: 1.95in; height: 1.95in; margin-left: -0.975in;
+  filter: drop-shadow(0 4pt 8pt rgba(0,0,0,.6)); }
+.bk-logo { position: absolute; top: 0.3in; left: 0; right: 0; text-align: center; font-family: "Russo One", sans-serif;
+  font-size: 25pt; line-height: .95; letter-spacing: 1pt; display: flex; flex-direction: column; align-items: center; }
+.bk-logo .metal { background: linear-gradient(180deg, #fff 0%, #d7dbe2 40%, #8a93a3 55%, #f5f7fa 75%, #b9c0cc 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent; }
+.bk-logo .goldtxt { font-size: 17pt; letter-spacing: 5pt; margin-top: 2pt; background: linear-gradient(180deg, #fff6d8 0%, #f3c969 45%, #b8862b 60%, #ffe39a 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent; }
+.bk-tag { position: absolute; bottom: 0.26in; left: 0; right: 0; text-align: center; font-family: "Russo One", sans-serif;
+  font-size: 9pt; letter-spacing: 2.5pt; color: #f3c969; }
 .pic { display: block; background: center / contain no-repeat; }
 .wall .pic { width: 100%; aspect-ratio: 1; }
 .frame { position: absolute; inset: 0.09in; border: 1.5pt solid #d9ae55; border-radius: 0.12in;
