@@ -23,29 +23,27 @@ CACHE = ROOT / "printables" / ".cache"
 FONTS = ROOT / "printables" / "fonts"
 ART = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{}.png"
 
-# Text printed on each card: the headline Pokémon only (evolutions still get artwork).
-NAMES = {
-    1: ["Charizard"], 2: ["Pikachu"], 3: ["Umbreon"], 4: ["Rayquaza"], 5: ["Mew"], 6: ["Lugia"],
-    7: ["Mewtwo"], 8: ["Gengar", "Mimikyu"], 9: ["Eevee"], 10: ["Garchomp", "Giratina"],
-    11: ["Reshiram", "Zekrom", "Kyurem"], 12: ["Vaporeon", "Jolteon", "Flareon"], 13: ["Sylveon"],
-    14: ["Espeon", "Deoxys"], 15: ["Latias", "Latios"], 16: ["Arceus", "Dialga", "Palkia"],
-    17: ["Tyranitar", "Sableye", "Houndoom"], 18: ["Dragonite"],
-    19: ["Blastoise", "Empoleon", "Starmie", "Poliwrath", "Politoed"], 20: ["Groudon", "Kyogre"],
-    21: ["Greninja", "Zoroark"], 22: ["Gardevoir", "Gallade"], 23: ["Gyarados", "Wailord"],
-    24: ["Venusaur"],
-    25: ["Lucario", "Melmetal", "Scizor", "Kleavor", "Hitmonlee", "Hitmonchan", "Hitmontop"],
-    26: ["Leafeon", "Glaceon"], 27: ["Articuno", "Zapdos", "Moltres", "Ho-Oh"],
-    28: ["Snorlax", "Ditto", "Golduck", "Slowbro", "Slowking"], 29: ["Alakazam", "Machamp", "Arcanine"],
-    30: ["Celebi", "Jirachi", "Victini", "Cresselia", "Shaymin", "Manaphy", "Yveltal"],
-    31: ["Raikou", "Entei", "Suicune"], 32: ["All Trainer Cards"],
+SPOTS = ROOT / "printables" / "spots.csv"
+
+# Pre-evolutions / alternate forms: shown as artwork but left out of the card text,
+# so each card names only the headline Pokémon of its spot.
+HIDE = {
+    "Charmander", "Charmeleon", "Pichu", "Raichu", "Alolan Raichu", "Magikarp", "Wailmer",
+    "Horsea", "Seadra", "Froakie", "Frogadier", "Zorua", "Squirtle", "Wartortle", "Piplup",
+    "Prinplup", "Staryu", "Poliwag", "Bulbasaur", "Ivysaur", "Gastly", "Haunter",
+    "Black Kyurem", "White Kyurem", "Gible", "Gabite", "Larvitar", "Pupitar", "Houndour",
+    "Dratini", "Dragonair", "Ralts", "Kirlia", "Riolu", "Meltan", "Scyther", "Tyrogue",
+    "Growlithe", "Machoke", "Abra", "Kadabra", "Munchlax",
 }
 
 
 def load_spots():
-    js = (ROOT / "data" / "pulls.js").read_text(encoding="utf-8")
-    data = json.loads(js[js.index("{"): js.rindex("}") + 1])
-    best = max(data["editions"].values(), key=len)
-    return [(s["spot"], [g["pokemon"] for g in s["groups"]]) for s in best]
+    """Spots in sheet order from printables/spots.csv (column A: "Mon / Mon / ...")."""
+    import csv
+    with SPOTS.open(newline="", encoding="utf-8-sig") as f:
+        rows = [r[0].strip() for r in csv.reader(f) if r and r[0].strip()]
+    rows = [r for r in rows if not r.lower().startswith("pok")]  # header
+    return [(i + 1, [m.strip() for m in r.split("/") if m.strip()]) for i, r in enumerate(rows)]
 
 
 def dex_map():
@@ -77,7 +75,7 @@ def font(name):
 
 
 def card(spot, mons, dex, imgs):
-    names = NAMES[spot]
+    names = [m for m in mons if m not in HIDE]
     mains = [m for m in mons if m in names]
     others = [m for m in mons if m not in names]
     order = mains + others

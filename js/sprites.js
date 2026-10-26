@@ -19,7 +19,7 @@
     Cresselia: 488, Manaphy: 490, Shaymin: 492, Arceus: 493, Victini: 494, Zorua: 570,
     Zoroark: 571, Reshiram: 643, Zekrom: 644, Kyurem: 646, Froakie: 656, Frogadier: 657,
     Greninja: 658, Sylveon: 700, Yveltal: 717, Mimikyu: 778, Meltan: 808, Melmetal: 809,
-    Kleavor: 900, "Black Kyurem": 10022, "White Kyurem": 10023, "Alolan Raichu": 10100,
+    Kleavor: 900, Kingdra: 230, Horsea: 116, Seadra: 117, Darkrai: 491, "Black Kyurem": 10022, "White Kyurem": 10023, "Alolan Raichu": 10100,
   };
   const BASE = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/";
   window.spriteUrl = (name) => (DEX[name] ? BASE + DEX[name] + ".png" : "");
