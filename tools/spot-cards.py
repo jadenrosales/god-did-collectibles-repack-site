@@ -2,6 +2,7 @@
 """Build printable spot cards (fronts) as a self-contained HTML page.
 
     python3 tools/spot-cards.py          -> printables/spot-cards.html
+    python3 tools/spot-cards.py --only Greninja --out printables/greninja.html   (reprint one card)
 
 Open the HTML in Chrome and print at 100% scale, or render it to PDF.
 Cards are 2.5" x 3.5" (standard trading-card size, fits a 3x4 toploader),
@@ -164,8 +165,19 @@ def back():
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--only", nargs="+", help="reprint just the spots containing these Pokémon")
+    ap.add_argument("--out", help="output HTML path")
+    args = ap.parse_args()
+    global OUT
+    if args.out:
+        OUT = pathlib.Path(args.out).resolve()
     dex = dex_map()
     spots = load_spots()
+    if args.only:
+        want = {w.lower() for w in args.only}
+        spots = [s for s in spots if want & {m.lower() for m in s[1]}]
     imgs = {m: art(dex[m]) for _, mons in spots for m in mons if m in dex}
     pic_css = "".join(f".p{dex[m]}{{background-image:url({u})}}\n" for m, u in imgs.items())
     cards = [card(n, mons, dex, imgs) for n, mons in spots]
@@ -184,7 +196,7 @@ def main():
                    .replace("{{PICS}}", pic_css)
                    .replace("{{RUSSO}}", font("RussoOne.ttf"))
                    .replace("{{INTER}}", font("Inter-800.ttf")), encoding="utf-8")
-    print(f"wrote {OUT.relative_to(ROOT)} ({len(cards)} cards, {OUT.stat().st_size // 1024} KB)")
+    print(f"wrote {OUT} ({len(cards)} cards, {OUT.stat().st_size // 1024} KB)")
 
 
 TEMPLATE = r'''<!DOCTYPE html>
