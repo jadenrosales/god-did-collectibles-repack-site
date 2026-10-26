@@ -164,11 +164,21 @@ def back():
     </div>'''
 
 
+def vault_card():
+    """Full-art Vault Box card using the box artwork, framed like the rest of the deck."""
+    src = base64.b64encode((ROOT / "printables" / "vault-box-card.webp").read_bytes()).decode()
+    return f'''
+    <div class="card vbox" style="background:#000 url(data:image/webp;base64,{src}) center / cover no-repeat">
+      <div class="frame"></div>
+    </div>'''
+
+
 def main():
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--only", nargs="+", help="reprint just the spots containing these Pokémon")
     ap.add_argument("--out", help="output HTML path")
+    ap.add_argument("--vault-card", action="store_true", help="add a Vault Box card (printables/vault-box-card.webp)")
     args = ap.parse_args()
     global OUT
     if args.out:
@@ -181,6 +191,8 @@ def main():
     imgs = {m: art(dex[m]) for _, mons in spots for m in mons if m in dex}
     pic_css = "".join(f".p{dex[m]}{{background-image:url({u})}}\n" for m, u in imgs.items())
     cards = [card(n, mons, dex, imgs) for n, mons in spots]
+    if args.vault_card:
+        cards.append(vault_card())
     # Double-sided: each front sheet is followed by its backs sheet, mirrored left-to-right
     # so every back lands behind its front when printed "flip on long edge".
     pages = ""
