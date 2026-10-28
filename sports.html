@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sports Vaults | Vault Box</title>
+  <meta name="description" content="Vault Box sports repacks: football, basketball and baseball boxes with price ranges.">
+  <meta name="theme-color" content="#06070b">
+  <link rel="icon" href="assets/boxes/grail.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Russo+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="bg-fx"></div>
+
+  <header class="nav">
+    <div class="wrap">
+      <a class="logo" href="index.html"><span class="dial"></span><span class="metal">VAULT BOX</span></a>
+      <nav>
+        <a href="index.html#boxes">Pokémon</a>
+        <a class="on" href="sports.html">Sports</a>
+        <a href="spots.html">Spots</a>
+        <a class="hide-sm" href="index.html#how">How it works</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="page-head">
+      <span class="eyebrow">Sports vaults</span>
+      <h1><span class="metal">GAME</span> <span class="gold">DAY VAULTS</span></h1>
+      <p>Football first, with basketball and baseball in the mix. Every box is cracked live, and every hit is graded or raw to fit the box’s price range.</p>
+      <div class="sport-chips" id="sport-chips"></div>
+    </div>
+
+    <div class="lineup sports-lineup" id="lineup"></div>
+
+    <div class="spots-note" style="margin-top:40px"><b>Checklists are on the way.</b> Each box’s full list of possible hits will be posted here soon. Cards that fit each box’s price range are added all the time, including new releases.</div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <a class="logo" href="index.html"><span class="dial"></span><span class="metal">VAULT BOX</span></a>
+      <div>Possible-hits lists are a guide, not a guarantee of what's in any single box. © <span id="year"></span> Vault Box</div>
+    </div>
+  </footer>
+
+  <!-- Box detail -->
+  <div class="reveal" id="sbox"><div class="rv sbox-card" id="sbox-card"></div></div>
+
+  <script src="data/config.js"></script>
+  <script src="data/pulls.js"></script>
+  <script src="data/sports.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/sports.js"></script>
+</body>
+</html>
