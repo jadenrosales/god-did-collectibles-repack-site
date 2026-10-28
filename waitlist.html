@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Streamer Waitlist | Vault Box</title>
+  <meta name="description" content="Streamers: join the waitlist to carry Vault Box repacks on your breaks.">
+  <meta name="theme-color" content="#06070b">
+  <link rel="icon" href="assets/boxes/grail.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Russo+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="bg-fx"></div>
+
+  <header class="nav">
+    <div class="wrap">
+      <a class="logo" href="index.html"><span class="dial"></span><span class="metal">VAULT BOX</span></a>
+      <nav>
+        <a href="index.html#boxes">Pokémon</a>
+        <a href="sports.html">Sports</a>
+        <a class="hide-sm" href="spots.html">Spots</a>
+        <a class="on" href="waitlist.html">Streamers</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="page-head">
+      <span class="eyebrow"><span class="live"></span>For streamers</span>
+      <h1><span class="metal">RUN VAULT BOX</span> <span class="gold">ON YOUR STREAM</span></h1>
+      <p>Want Vault Boxes for your own breaks? Join the waitlist and we’ll reach out when spots open up.</p>
+    </div>
+
+    <div class="wl">
+      <div class="wl-perks">
+        <div class="wl-perk"><b>Ready-to-break boxes</b><span>Pokémon and sports Vault Boxes, built to fit each box’s price range.</span></div>
+        <div class="wl-perk"><b>Every price range</b><span>From Lite to Grail, pick the boxes that fit your audience.</span></div>
+        <div class="wl-perk"><b>Built for live</b><span>Box art and reveals that look great on camera.</span></div>
+      </div>
+
+      <form class="wl-form" id="wl-form" name="streamer-waitlist" method="POST" action="waitlist.html?sent=1"
+            data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="streamer-waitlist">
+        <p class="hp"><label>Leave this empty <input name="bot-field"></label></p>
+
+        <div class="wl-row">
+          <label>Your name<input name="name" required autocomplete="name"></label>
+          <label>Email<input name="email" type="email" required autocomplete="email"></label>
+        </div>
+        <div class="wl-row">
+          <label>Stream handle<input name="handle" required placeholder="@yourname"></label>
+          <label>Main platform
+            <select name="platform" required>
+              <option value="">Choose one</option>
+              <option>TikTok</option><option>Whatnot</option><option>YouTube</option>
+              <option>Instagram</option><option>Twitch</option><option>Other</option>
+            </select>
+          </label>
+        </div>
+        <fieldset>
+          <legend>What do you want to carry?</legend>
+          <div class="wl-checks">
+            <label><input type="checkbox" name="interest" value="Pokémon"> Pokémon</label>
+            <label><input type="checkbox" name="interest" value="Sports"> Sports</label>
+          </div>
+        </fieldset>
+        <div class="wl-row">
+          <label>Average live viewers
+            <select name="viewers">
+              <option value="">Choose one</option>
+              <option>Under 25</option><option>25–100</option><option>100–500</option><option>500+</option>
+            </select>
+          </label>
+          <label>Phone (optional)<input name="phone" type="tel" autocomplete="tel"></label>
+        </div>
+        <label>Anything else?<textarea name="message" rows="3" placeholder="Which boxes you’re interested in, how often you stream…"></textarea></label>
+        <button class="btn primary" type="submit" id="wl-btn">Join the waitlist</button>
+        <p class="wl-msg" id="wl-msg" role="status"></p>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <a class="logo" href="index.html"><span class="dial"></span><span class="metal">VAULT BOX</span></a>
+      <div>© <span id="year"></span> Vault Box</div>
+    </div>
+  </footer>
+
+  <script src="data/config.js"></script>
+  <script src="data/pulls.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+  (function () {
+    const form = document.getElementById("wl-form");
+    const msg = document.getElementById("wl-msg");
+    const btn = document.getElementById("wl-btn");
+    const done = () => {
+      form.classList.add("sent");
+      msg.innerHTML = "<b>You’re on the list!</b> We’ll reach out when spots open up.";
+    };
+    if (new URLSearchParams(location.search).has("sent")) done();
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      btn.disabled = true;
+      msg.textContent = "Sending…";
+      try {
+        const res = await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(new FormData(form)).toString(),
+        });
+        if (!res.ok) throw new Error(res.status);
+        done();
+      } catch (err) {
+        btn.disabled = false;
+        msg.textContent = "Something went wrong. Please try again in a moment.";
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

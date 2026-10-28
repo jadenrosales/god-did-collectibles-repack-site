@@ -639,3 +639,48 @@ footer .logo { font-size: 18px; }
 .lg.nhl { background: rgba(200,210,225,.12); color: #c9d3e0; }
 .team-extra { margin-top: 10px; font-size: 12px; font-weight: 800; color: var(--gold); background: rgba(243,201,105,.08);
   border: 1px dashed rgba(243,201,105,.4); border-radius: 8px; padding: 6px 9px; }
+
+/* ---------- streamer waitlist ---------- */
+.wl { display: grid; grid-template-columns: 1fr 1.4fr; gap: 26px; align-items: start; padding-bottom: 80px; }
+@media (max-width: 860px) { .wl { grid-template-columns: 1fr; } }
+.wl-perks { display: grid; gap: 12px; }
+.wl-perk { background: linear-gradient(160deg, var(--panel2), var(--panel)); border: 1px solid var(--line); border-left: 3px solid var(--gold);
+  border-radius: 14px; padding: 16px 18px; display: grid; gap: 4px; }
+.wl-perk b { font-family: var(--display); font-weight: 400; font-size: 18px; }
+.wl-perk span { color: var(--dim); font-size: 14px; }
+.wl-form { background: linear-gradient(160deg, var(--panel2), var(--panel)); border: 1px solid rgba(243,201,105,.35); border-radius: 20px;
+  padding: 24px; display: grid; gap: 14px; box-shadow: 0 0 60px rgba(243,201,105,.08); }
+.wl-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 520px) { .wl-row { grid-template-columns: 1fr; } }
+.wl-form label { display: grid; gap: 6px; font-size: 13px; font-weight: 700; color: var(--dim); }
+.wl-form input:not([type=checkbox]), .wl-form select, .wl-form textarea {
+  font: inherit; font-size: 15px; color: var(--text); background: rgba(0,0,0,.3); border: 1px solid var(--line2);
+  border-radius: 10px; padding: 11px 12px; outline: none; transition: border-color .15s, box-shadow .15s; width: 100%; }
+.wl-form select option { background: #11151d; }
+.wl-form input:focus, .wl-form select:focus, .wl-form textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(243,201,105,.18); }
+.wl-form fieldset { border: 0; margin: 0; padding: 0; }
+.wl-form legend { font-size: 13px; font-weight: 700; color: var(--dim); margin-bottom: 8px; }
+.wl-checks { display: flex; gap: 10px; flex-wrap: wrap; }
+.wl-checks label { display: flex; align-items: center; gap: 8px; color: var(--text); font-size: 14px; padding: 10px 14px;
+  border: 1px solid var(--line2); border-radius: 10px; cursor: pointer; background: rgba(0,0,0,.2); }
+.wl-checks input { accent-color: #f3c969; width: 16px; height: 16px; }
+.wl-form .hp { position: absolute; left: -9999px; }
+.wl-form button { justify-self: start; }
+.wl-form button:disabled { opacity: .6; cursor: default; transform: none; }
+.wl-msg { margin: 0; min-height: 20px; font-size: 14px; color: var(--dim); }
+.wl-msg b { color: #3ddc84; }
+.wl-form.sent > :not(.wl-msg):not(input[type=hidden]) { display: none; }
+.wl-form.sent .wl-msg { font-size: 17px; text-align: center; padding: 30px 0; }
+.wl-cta { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; padding: 22px 26px; border-radius: 20px;
+  border: 1px solid var(--line2); background: linear-gradient(120deg, rgba(255,59,92,.10), var(--panel) 60%); text-decoration: none; }
+.wl-cta h3 { margin: 4px 0; font-family: var(--display); font-weight: 400; font-size: 24px; }
+.wl-cta p { margin: 0; color: var(--dim); }
+
+/* phone nav: logo row + swipeable link row */
+@media (max-width: 640px) {
+  .nav .wrap { height: auto; flex-wrap: wrap; gap: 2px; padding-top: 10px; padding-bottom: 6px; }
+  .nav nav { margin-left: 0; width: 100%; overflow-x: auto; scrollbar-width: none; flex-wrap: nowrap; }
+  .nav nav::-webkit-scrollbar { display: none; }
+  .nav nav a { flex: none; padding: 7px 10px; font-size: 13.5px; }
+  .nav nav a.hide-sm { display: inline-block; }
+}
