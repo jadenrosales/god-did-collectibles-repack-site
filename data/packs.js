@@ -1,5 +1,5 @@
-/* Vault Packs settings and chaser checklist.
-   Add chaser cards to the "singles" list as { name: "Player", card: "Set / card", note: "PSA 10, /99, etc." }. */
+/* Vault Packs settings and the sealed-pack part of the chaser checklist.
+   Chaser singles live in data/chasers.txt (rebuild with: python3 tools/build-chasers.py). */
 window.PACKS_CONFIG = {
   price: "", // e.g. "$25" — leave "" to hide
   inside: [
@@ -19,10 +19,6 @@ window.PACKS_CONFIG = {
         { name: "Topps Bowman pack", card: "Sealed pack" },
         { name: "Topps Flagship pack", card: "Sealed pack" },
       ],
-    },
-    {
-      group: "Football singles",
-      items: [],
     },
   ],
 };

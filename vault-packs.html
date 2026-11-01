@@ -37,7 +37,7 @@
       <div>
         <span class="eyebrow">New · Vault Packs</span>
         <h1><span class="metal">VAULT</span> <span class="gold">PACKS</span></h1>
-        <p class="lead">A sealed mystery pack with a little bit of everything. Rip it on stream and see what’s inside.</p>
+        <p class="lead">A sealed mystery pack with a little bit of everything. Packs are auctioned live, then ripped on stream so you see what’s inside.</p>
         <p class="pk-price" id="pk-price"></p>
         <div class="pk-odds">
           <b id="pk-odds"></b>
@@ -62,7 +62,7 @@
       </div>
       <div class="pk-rules">
         <div><b id="pk-odds-2"></b><span>Packs with a chaser</span></div>
-        <div><b>Live</b><span>Chasers shown at the start of each stream</span></div>
+        <div><b>Live</b><span>Packs auctioned and chasers shown at the start of each stream</span></div>
         <div><b>100%</b><span>Transparent: what’s shown is what’s in play</span></div>
       </div>
     </section>
@@ -71,6 +71,7 @@
       <div class="sec-head">
         <span class="eyebrow">Chaser checklist</span>
         <h2>What you can chase</h2>
+        <p id="pk-count"></p>
       </div>
       <div class="board-filter">
         <label class="search">
@@ -93,6 +94,7 @@
   <script src="data/config.js"></script>
   <script src="data/pulls.js"></script>
   <script src="data/packs.js"></script>
+  <script src="data/chasers.js"></script>
   <script src="js/sprites.js"></script>
   <script src="js/common.js"></script>
   <script>
@@ -107,7 +109,10 @@
 
     function render() {
       const q = $("pk-q").value.trim().toLowerCase();
-      $("pk-list").innerHTML = P.checklist.map((g) => {
+      const groups = P.checklist.concat(window.CHASERS || []);
+      const total = (window.CHASERS || []).reduce((n, g) => n + g.items.length, 0);
+      $("pk-count").textContent = total ? `${total}+ chaser singles listed` : "";
+      $("pk-list").innerHTML = groups.map((g) => {
         const items = g.items.filter((i) => !q || `${i.name} ${i.card} ${i.note || ""}`.toLowerCase().includes(q));
         if (q && !items.length) return "";
         const body = items.length
