@@ -714,3 +714,49 @@ footer .logo { font-size: 18px; }
 .pk-rules b { font-family: var(--display); font-weight: 400; font-size: 34px; color: #5ec8ff; }
 .pk-rules span { color: var(--dim); font-size: 14px; }
 #pk-list { --a: #5ec8ff; }
+
+/* ---------- price check (prices.html) ---------- */
+.px-input { max-width: 900px; margin: 0 auto; }
+.px-input textarea {
+  width: 100%; min-height: 190px; resize: vertical; border-radius: 14px; padding: 14px 16px;
+  border: 1px solid var(--line2); background: var(--panel); color: var(--text);
+  font: 14.5px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; outline: 0; transition: 0.2s;
+}
+.px-input textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent); }
+.px-controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
+.px-controls .btn:disabled { opacity: 0.45; cursor: default; transform: none; }
+.px-pct { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 700; color: var(--dim); }
+.px-pct input { width: 58px; padding: 9px 8px; border-radius: 10px; border: 1px solid var(--line2); background: var(--panel); color: var(--text); font: inherit; font-weight: 800; text-align: center; }
+.px-hint { margin-top: 10px; color: var(--dim); font-size: 12.5px; }
+.px-hint code { background: rgba(255, 255, 255, 0.06); padding: 1px 6px; border-radius: 6px; font-size: 12px; }
+.px-status { margin-top: 8px; min-height: 20px; color: var(--dim); font-size: 13.5px; }
+.px-bad { color: #ff6b81; }
+.gold-text { color: var(--gold); }
+.px-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.px-stat { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+.px-stat span { display: block; color: var(--dim); font-size: 11.5px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; }
+.px-stat b { display: block; font-size: 24px; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.px-stat.gold-stat { border-color: color-mix(in srgb, var(--gold) 45%, transparent); background: linear-gradient(135deg, color-mix(in srgb, var(--gold) 12%, var(--panel)), var(--panel) 60%); }
+.px-stat.gold-stat b { color: var(--gold); }
+.px-tablewrap { overflow-x: auto; }
+.px-table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.px-table th, .px-table td { padding: 11px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; font-size: 14px; }
+.px-table th { color: var(--dim); font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; }
+.px-table .n { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.px-table tfoot td { font-weight: 800; font-size: 15.5px; background: var(--panel2); border-bottom: 0; }
+.px-name a { color: var(--text); text-decoration: none; border-bottom: 1px dotted var(--dim); font-weight: 700; }
+.px-set, .px-q { color: var(--dim); font-size: 12px; margin-top: 2px; }
+.px-alt { margin-top: 6px; max-width: 100%; background: var(--bg2); color: var(--text); border: 1px solid var(--line2); border-radius: 8px; padding: 6px 8px; font: inherit; font-size: 12.5px; }
+.px-qty { width: 60px; padding: 6px; text-align: right; border-radius: 8px; border: 1px solid var(--line2); background: var(--bg2); color: var(--text); font: inherit; font-weight: 700; }
+@media (max-width: 700px) {
+  .px-table thead { display: none; }
+  .px-table, .px-table tbody, .px-table tfoot, .px-table tr, .px-table td { display: block; width: 100%; }
+  .px-table tr { padding: 10px 12px 8px; border-bottom: 1px solid var(--line); }
+  .px-table td { border: 0; padding: 2px 0; }
+  .px-table td.n { display: inline-block; width: auto; text-align: left; margin: 8px 16px 0 0; }
+  .px-table td.n::before { content: attr(data-l); display: block; color: var(--dim); font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
+  .px-table tfoot tr { display: flex; flex-wrap: wrap; gap: 0 16px; align-items: flex-end; }
+  .px-table tfoot td { width: auto; }
+  .px-table tfoot td:empty { display: none; }
+  .px-alt { width: 100%; }
+}

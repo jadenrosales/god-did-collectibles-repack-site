@@ -1,0 +1,28 @@
+name: Refresh TCGPlayer prices
+
+on:
+  schedule:
+    - cron: "37 21 * * *"   # daily, ~90 min after tcgcsv's 20:00 UTC update
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch prices
+        run: python3 tools/fetch-tcg-prices.py
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/tcg-prices.json
+          git diff --cached --quiet && echo "No price changes" && exit 0
+          git commit -m "Refresh TCGPlayer prices $(date -u +%Y-%m-%d)"
+          git push

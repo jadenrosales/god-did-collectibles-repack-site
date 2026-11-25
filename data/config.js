@@ -2,6 +2,10 @@
 window.VAULT_CONFIG = {
   brand: "Vault Box",
 
+  // Price check page (prices.html). Leave empty to use the daily snapshot in data/tcg-prices.json.
+  // Set to your collectr-scraper service URL (e.g. "https://xxx.up.railway.app") for live TCGPlayer prices.
+  tcgApi: "",
+
   // Order here is the order boxes appear on the site.
   editions: [
     {

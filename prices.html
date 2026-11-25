@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Price Check | Vault Box</title>
+  <meta name="description" content="Paste a list of sealed Pokémon products and get TCGPlayer market prices, quantities and totals.">
+  <meta name="theme-color" content="#06070b">
+  <link rel="icon" href="assets/boxes/grail.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Russo+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="bg-fx"></div>
+
+  <header class="nav">
+    <div class="wrap">
+      <a class="logo" href="index.html"><span class="dial"></span><span class="metal">VAULT BOX</span></a>
+      <nav>
+        <a href="index.html#boxes">Pokémon</a>
+        <a href="sports.html">Sports</a>
+        <a href="vault-packs.html">Vault Packs</a>
+        <a class="hide-sm" href="spots.html">Spots</a>
+        <a class="on" href="prices.html">Prices</a>
+        <a href="waitlist.html">Streamers</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="block" style="padding-bottom:10px">
+      <div class="sec-head">
+        <span class="eyebrow">Sealed price check</span>
+        <h2><span class="metal">TCGPLAYER</span> <span class="gold">MARKET</span></h2>
+        <p>Paste a list of sealed Pokémon products, one per line, with a quantity. Get TCGPlayer's Market Price for each, line totals, and your offer at any percentage.</p>
+      </div>
+
+      <div class="px-input">
+        <textarea id="px-list" rows="9" placeholder="9 30th posters
+4x 30th Celebration Greninja ex Box
+30th Celebration Sylveon ex Box, 4
+Delta Reign Elite Trainer Box Qty: 2
+1 night 30th upc"></textarea>
+        <div class="px-controls">
+          <button class="btn primary" id="px-go">Check prices</button>
+          <label class="px-pct">Offer <input id="px-pct" type="number" min="1" max="100" step="1" value="80"> % of market</label>
+          <button class="btn" id="px-csv" disabled>Download CSV</button>
+          <button class="btn" id="px-copy" disabled>Copy table</button>
+          <button class="btn" id="px-clear">Clear</button>
+        </div>
+        <div class="px-hint">Qty formats: <code>3 Name</code>, <code>3x Name</code>, <code>Name x3</code>, <code>Name, 3</code>, <code>Name Qty: 3</code>. No number = 1. Shorthand like <code>etb</code>, <code>upc</code>, <code>bb</code>, <code>umbreon/espeon upc</code> works.</div>
+        <div class="px-status" id="px-status"></div>
+      </div>
+    </section>
+
+    <section class="block" id="px-out" style="padding-top:10px;display:none">
+      <div class="px-stats">
+        <div class="px-stat"><span>Market value</span><b id="px-total">$0.00</b></div>
+        <div class="px-stat gold-stat"><span id="px-offer-label">Offer @ 80%</span><b id="px-offer">$0.00</b></div>
+        <div class="px-stat"><span>Units</span><b id="px-units">0</b></div>
+        <div class="px-stat"><span>Unmatched</span><b id="px-unmatched">0</b></div>
+      </div>
+      <div class="px-tablewrap">
+        <table class="px-table">
+          <thead><tr>
+            <th>Product</th><th class="n">Qty</th><th class="n">Market</th><th class="n" id="px-th-pct">80%</th><th class="n">Line total</th><th class="n" id="px-th-line-pct">Line @ 80%</th>
+          </tr></thead>
+          <tbody id="px-rows"></tbody>
+          <tfoot><tr><td>Total</td><td class="n" data-l="Units" id="px-f-units"></td><td></td><td></td><td class="n" data-l="Market" id="px-f-total"></td><td class="n gold-text" data-l="Offer" id="px-f-offer"></td></tr></tfoot>
+        </table>
+      </div>
+      <div class="spots-note" style="margin:22px auto 60px">Market = TCGPlayer Market Price (what it has actually been selling for). Low = cheapest listing. If the auto-match is wrong, pick another product from the row's dropdown and the totals update. <span id="px-source"></span></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <a class="logo" href="index.html"><span class="dial"></span><span class="metal">VAULT BOX</span></a>
+      <div>Prices are a guide from TCGPlayer market data, not an offer. © <span id="year"></span> Vault Box</div>
+    </div>
+  </footer>
+
+  <script src="data/config.js"></script>
+  <script src="data/pulls.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/prices.js"></script>
+</body>
+</html>
